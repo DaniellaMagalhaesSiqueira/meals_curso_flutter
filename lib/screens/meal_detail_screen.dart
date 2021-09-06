@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:meals/models/meal.dart';
 
 class MealDetailScreen extends StatelessWidget {
+  final Function(Meal) onToggleFavorite;
+  final bool Function(Meal) isFavorite;
+
+  const MealDetailScreen(this.onToggleFavorite, this.isFavorite);
   Widget _createSectionTitle(BuildContext context, String title) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -50,7 +54,7 @@ class MealDetailScreen extends StatelessWidget {
                 itemBuilder: (ctx, index) {
                   return Padding(
                     padding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: Card(
                       child: Text(meal.ingredients[index]),
                       color: Theme.of(context).accentColor,
@@ -80,6 +84,12 @@ class MealDetailScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(isFavorite(meal) ? Icons.star : Icons.star_border),
+        onPressed: () {
+          onToggleFavorite(meal);
+        },
       ),
     );
   }
